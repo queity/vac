@@ -1,5 +1,7 @@
 package br.com.qty.configuration;
 
+import java.util.function.Predicate;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +16,7 @@ public class SwaggerConfiguration {
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
-				.paths(PathSelectors.any()).build();
+				.paths(PathSelectors.any()).paths(Predicate.not(PathSelectors.regex("/error.*"))).build();
 	}
 
 }

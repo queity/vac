@@ -13,12 +13,17 @@ public class AplicacaoVacinaDTO {
 	private String emailUsuario;
 	private LocalDate dataAplicacao;
 
+	public AplicacaoVacinaDTO() {
+	}
+
 	public AplicacaoVacinaDTO(AplicacaoVacina entidade) {
 		this.id = entidade.getId();
 		this.nomeVacina = entidade.getNomeVacina();
-		this.idUsuario = entidade.getUsuario().getId();
-		this.nomeUsuario = entidade.getUsuario().getNome();
-		this.emailUsuario = entidade.getUsuario().getEmail();
+		if (entidade.getUsuario() != null) {
+			this.idUsuario = entidade.getUsuario().getId();
+			this.nomeUsuario = entidade.getUsuario().getNome();
+			this.emailUsuario = entidade.getUsuario().getEmail();
+		}
 		this.dataAplicacao = entidade.getDataAplicacao();
 	}
 

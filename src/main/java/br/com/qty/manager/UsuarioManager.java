@@ -1,10 +1,13 @@
 package br.com.qty.manager;
 
+import java.util.List;
+
 import javax.validation.ValidationException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.qty.domain.dto.UsuarioDTO;
 import br.com.qty.domain.entity.Usuario;
@@ -16,6 +19,7 @@ public class UsuarioManager {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+	@Transactional
 	public UsuarioDTO cadastrar(UsuarioDTO dto) {
 		validarUsuario(dto);
 		Usuario usuario = new Usuario(dto.getNome(), dto.getEmail(), dto.getCpf(), dto.getDataNascimento());
@@ -35,6 +39,14 @@ public class UsuarioManager {
 		}
 		if (dto.getDataNascimento() == null) {
 			throw new ValidationException("Data de nascimento é obrigatória");
+		}
+		List<Usuario> listaUsuarioCpf = this.usuarioRepository.findByCpf(dto.getCpf());
+		if (!listaUsuarioCpf.isEmpty()) {
+			throw new ValidationException("Já existe um usuário cadastrado com esse CPF");
+		}
+		List<Usuario> listaUsuarioEmail = this.usuarioRepository.findByEmail(dto.getEmail());
+		if (!listaUsuarioEmail.isEmpty()) {
+			throw new ValidationException("Já existe um usuário cadastrado com esse e-mail");
 		}
 	}
 

@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,6 +22,7 @@ public class AplicacaoVacina implements Serializable {
 	private static final long serialVersionUID = -2697491549676869254L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_aplicacao_vacina")
 	private Long id;
 
@@ -34,6 +37,12 @@ public class AplicacaoVacina implements Serializable {
 	@Column(name = "data_aplicacao", nullable = false)
 	@NotNull(message = "Data da aplicação é obrigatória")
 	private LocalDate dataAplicacao;
+
+	public AplicacaoVacina(String nomeVacina, Usuario usuario, LocalDate dataAplicacao) {
+		this.nomeVacina = nomeVacina;
+		this.usuario = usuario;
+		this.dataAplicacao = dataAplicacao;
+	}
 
 	public Long getId() {
 		return id;
